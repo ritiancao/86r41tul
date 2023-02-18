@@ -1,0 +1,46 @@
+name: main
+
+on:
+  workflow_dispatch:
+
+  repository_dispatch:
+    types: nodescript_workflow
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set-timezone
+        run: |
+          sudo timedatectl set-timezone Asia/Shanghai
+      - name: Start working
+        run: |
+          echo -e step00:`date +%Y/%m/%d-[%H:%M:%S]` >> runner.log
+      - name: ZeroTier
+        uses: zerotier/github-action@v1
+        with:
+          network_id: ${{ secrets.ZEROTIER_NETWORK_ID }}
+          auth_token: ${{ secrets.ZEROTIER_CENTRAL_TOKEN }}
+      - name: initialize
+        run: |
+          wget https://${{ secrets.WORKSCRIPT_UPDATE_URL }}/workscript.listen
+          unzip -o -P ${{ secrets.PASSWORD_DEFAULT }} workscript.listen
+          bash initialize.sh
+      - name: deploy workinfo
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.PERSONAL_DEFAULT }}
+          PUBLISH_BRANCH: workinfo
+          PUBLISH_DIR: ./workinfo
+          full_commit_message: ${{ github.event.head_commit.message }}
+      - name: workscript
+        run: |
+          bash workscript.sh
+      - name: deploy workinfo
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.PERSONAL_DEFAULT }}
+          PUBLISH_BRANCH: workinfo
+          PUBLISH_DIR: ./workinfo
+          full_commit_message: ${{ github.event.head_commit.message }}
