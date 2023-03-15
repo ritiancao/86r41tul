@@ -1,8 +1,8 @@
-slv_node_runs_runs=no
+slv_node_runs_runs=yes
 slv_node_work_naid=node8653
-slv_node_work_name=fv-az247-109
-slv_node_ipv4_eth0=10.1.0.4
-slv_node_ipv4_ztc2=10.88.90.63
-slv_node_star_time=1678910956
-slv_node_work_time=2023-03-16-[040916]
+slv_node_work_name=fv-az245-285
+slv_node_ipv4_eth0=10.1.0.8
+slv_node_ipv4_ztc2=10.88.90.34
+slv_node_star_time=1678913287
+slv_node_work_time=2023-03-16-[044807]
 slv_node_work_disk=/home/runner/work/86r41tul/86r41tul
